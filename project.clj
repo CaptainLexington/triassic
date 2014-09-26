@@ -4,7 +4,7 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2311"]
-                 [cljs-webgl "0.1.4-SNAPSHOT"]]
+                 [cljs-webgl "0.1.5-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
 
