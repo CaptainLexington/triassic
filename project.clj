@@ -13,6 +13,10 @@
   :cljsbuild {
               :builds [{:id "triassic"
                         :source-paths ["src"]
+
+                        :foreign-libs [
+                                       {:file "resources/js/gl-matrix-min.js" :provides ["mat4","mat3","vec3"]}
+                                       {:file "resources/js/webgl-utils.js" :provides ["WebGLUtils"]}]
                         :compiler {
                                    :output-to "triassic.js"
                                    :output-dir "out"

@@ -1,65 +1,57 @@
 (ns triassic.core
-  (:require [cljs-webgl.context :as context]
-            [cljs-webgl.shaders :as shaders]
-            [cljs-webgl.constants.draw-mode :as draw-mode]
-            [cljs-webgl.constants.data-type :as data-type]
-            [cljs-webgl.constants.buffer-object :as buffer-object]
-            [cljs-webgl.constants.shader :as shader]
-            [cljs-webgl.buffers :as buffers]
-            [cljs-webgl.typed-arrays :as ta]))
+ (:require
+    [mat4]
+    [learningwebgl.common :refer [init-gl init-shaders get-perspective-matrix get-position-matrix]]
+    [cljs-webgl.buffers :refer [create-buffer clear-color-buffer draw!]]
+    [cljs-webgl.shaders :refer [get-attrib-location]]
+    [cljs-webgl.constants.buffer-object :as buffer-object]
+    [cljs-webgl.constants.capability :as capability]
+    [cljs-webgl.constants.draw-mode :as draw-mode]
+    [cljs-webgl.typed-arrays :as ta]))
 
+(defn ^:export start []
+  (let [canvas      (.getElementById js/document "canvas")
+        gl          (init-gl canvas)
+        shader-prog (init-shaders gl)
+        triangle-vertex-buffer
+                    (create-buffer gl
+                      (ta/float32 [ 0.0,  1.0,  0.0,
+                                   -1.0, -1.0,  0.0,
+                                    1.0, -1.0,  0.0 ])
+                      buffer-object/array-buffer
+                      buffer-object/static-draw
+                      3)
 
+        square-vertex-buffer
+                    (create-buffer gl
+                      (ta/float32 [ 1.0,  1.0,  0.0,
+                                   -1.0,  1.0,  0.0,
+                                    1.0, -1.0,  0.0,
+                                   -1.0, -1.0,  0.0])
+                      buffer-object/array-buffer
+                      buffer-object/static-draw
+                      3)
 
-(def vertex-shader-source
-  "attribute vec3 vertex_position;
-  void main() {
-  gl_Position = vec4(vertex_position, 1);
-  }")
+        vertex-position-attribute (get-attrib-location gl shader-prog "aVertexPosition")]
 
-(def fragment-shader-source
-  "uniform int frame;
-  void main() {
-  gl_FragColor.r = sin(float(frame) * 0.05) / 2.0 + 0.5;
-  gl_FragColor.g = sin(float(frame) * 0.1) / 2.0 + 0.5;
-  gl_FragColor.b = sin(float(frame) * 0.02) / 2.0 + 0.5;
-  gl_FragColor.a = 1.0;
-  }")
+    (clear-color-buffer gl 0.0 0.0 0.0 1.0)
 
-(defn start []
-  (let
-    [gl (context/get-context (.getElementById js/document "canvas"))
-     shader (shaders/create-program gl
-                                    (shaders/create-shader gl shader/vertex-shader vertex-shader-source)
-                                    (shaders/create-shader gl shader/fragment-shader fragment-shader-source))
-     vertex-buffer (buffers/create-buffer gl (ta/float32 [1.0 1.0 0.0
-                                                          -1.0 1.0 0.0
-                                                          1.0 -1.0 0.0])
-                                          buffer-object/array-buffer
-                                          buffer-object/static-draw)
-     element-buffer (buffers/create-buffer gl (ta/unsigned-int16 [0 1 2])
-                                           buffer-object/element-array-buffer
-                                           buffer-object/static-draw)
-     draw (fn [frame continue]
-            (-> gl
-                (buffers/clear-color-buffer 0 0 0 1)
-                (buffers/draw! :shader shader
-                               :draw-mode draw-mode/triangles
-                               :count 3
+    (draw!
+      gl
+      :shader shader-prog
+      :draw-mode draw-mode/triangles
+      :capabilities {capability/depth-test true}
+      :count (.-numItems triangle-vertex-buffer)
+      :attributes [{:buffer triangle-vertex-buffer :location vertex-position-attribute}]
+      :uniforms [{:name "uPMatrix" :type :mat4 :values (get-perspective-matrix gl)}
+                 {:name "uMVMatrix" :type :mat4 :values (get-position-matrix [-1.5 0.0 -7.0])}])
 
-                               :attributes
-                               [{:buffer vertex-buffer
-                                 :location (shaders/get-attrib-location gl shader "vertex_position")
-                                 :components-per-vertex 3
-                                 :type data-type/float}]
-
-                               :uniforms
-                               [{:name "frame" :type :int :values (ta/int32 [frame])}]
-
-                               :element-array
-                               {:buffer element-buffer
-                                :count 3
-                                :type data-type/unsigned-short
-                                :offset 0}))
-
-            (.requestAnimationFrame js/window (fn [time-elapsed] (continue (inc frame) continue))))]
-    (.requestAnimationFrame js/window (fn [time-elapsed] (draw 0 draw)))))
+    (draw!
+      gl
+      :shader shader-prog
+      :draw-mode draw-mode/triangle-strip
+      :capabilities {capability/depth-test true}
+      :count (.-numItems square-vertex-buffer)
+      :attributes [{:buffer square-vertex-buffer :location vertex-position-attribute}]
+      :uniforms [{:name "uPMatrix" :type :mat4 :values (get-perspective-matrix gl)}
+                 {:name "uMVMatrix" :type :mat4 :values (get-position-matrix [1.5 0.0 -7.0])}])))
