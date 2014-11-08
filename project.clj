@@ -4,6 +4,7 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2311"]
+                 [net.mikera/core.matrix "0.31.1"]
                  [cljs-webgl "0.1.5-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
@@ -13,11 +14,10 @@
   :cljsbuild {
               :builds [{:id "triassic"
                         :source-paths ["src"]
-
-                        :foreign-libs [
-                                       {:file "resources/js/gl-matrix-min.js" :provides ["mat4","mat3","vec3"]}
-                                       {:file "resources/js/webgl-utils.js" :provides ["WebGLUtils"]}]
                         :compiler {
+                                   :foreign-libs [
+                                                  {:file "resources/js/gl-matrix-min.js" :provides ["mat4","mat3","vec3"]}
+                                                  {:file "resources/js/webgl-utils.js" :provides ["WebGLUtils"]}]
                                    :output-to "triassic.js"
                                    :output-dir "out"
                                    :optimizations :none
