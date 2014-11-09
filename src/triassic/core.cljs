@@ -1,4 +1,4 @@
-$(ns triassic.core
+(ns triassic.core
  (:require [mat4]
            [WebGLUtils]
            [triassic.matrix :as matrix]))
