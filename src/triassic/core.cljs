@@ -1,6 +1,7 @@
-$(ns triassic.core
+(ns triassic.core
  (:require [mat4]
            [WebGLUtils]
+           [cljs-webgl]
            [triassic.matrix :as matrix]))
 
 

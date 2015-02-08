@@ -5,11 +5,13 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2311"]
                  [net.mikera/core.matrix "0.31.1"]
-                 [cljs-webgl "0.1.5-SNAPSHOT"]]
+                 [cljs-webgl "0.1.5-SNAPSHOT"]
+                 [com.cemerick/clojurescript.test "0.3.3"]]
 
-  :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
+  :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]
+            [com.cemerick/clojurescript.test "0.3.3"]]
 
-  :source-paths ["src"]
+  :source-paths ["src/cljs"]
 
   :cljsbuild {
               :builds [{:id "triassic"
