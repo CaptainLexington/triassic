@@ -1,8 +1,8 @@
 (ns triassic.core
  (:require [mat4]
            [WebGLUtils]
-           [cljs-webgl]
-           [triassic.matrix :as matrix]))
+           [triassic.matrix :as matrix]
+           [triassic.matrix-test :as mat-test]))
 
 
 (def a (mat4/create))
