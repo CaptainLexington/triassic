@@ -1,5 +1,6 @@
 (ns triassic.space
-  (:require [triassic.utils :as utils]))
+  (:require [goog.vec.vec3 :as vec3]
+            [triassic.utils :as utils]))
 
 
 
