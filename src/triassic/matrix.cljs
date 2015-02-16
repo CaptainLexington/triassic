@@ -1,77 +1,54 @@
 (ns triassic.matrix
-  (:require [vec3]
-            [mat4]
+  (:require [mat4]
             [triassic.utils :as utils]))
-
-;;; glMatrix vec3 wrapper
-
-
-(defn vector-3 [x y z]
-  (vec3/fromValues x y z))
-
-(defn add [vec1 vec2]
-  (let [new (vec3/create)]
-    (vec3/add new vec1 vec2)))
-
-(defn cross [vec1 vec2]
-  (let [new (vec3/create)]
-    (vec3/cross new vec1 vec2)))
-
-(defn distance [vec1 vec2]
-  (vec3/distance vec1 vec2))
-
-(defn dot [vec1 vec2]
-  (vec3/dot vec1 vec2))
-
-(defn magnitude [vec1]
-  (vec3/length vec1))
-
-(defn normalize [vec1]
-  (let [new (vec3/create)]
-    (vec3/normalize new vec1)))
-
-(defn scale [vec1 scalar]
-  (let [new (vec3/create)]
-    (vec3/scale new vec1 scalar)))
-
-(defn subtract [vec1 vec2]
-  (let [new (vec3/create)]
-    (vec3/subtract new vec1 vec2)))
-
-(defn vec3-str [vec1]
-  (vec3/str vec1))
-
 
 
 ;;; glMatrix mat4 wrapper
 
+(defn matrix-str [matrix]
+  (mat4/str matrix))
 
 (defn identity-matrix []
-  (mat4/createFloat32Identity))
-
-(defn from-vector [matrix]
-  (mat4/createFloat32FromArray (js/Float32Array. (to-array matrix))))
-
-(defn equals? [matA matB]
-  (mat4/equals matA matB))
+  (let [new (mat4/create)]
+    (mat4/identity new)))
 
 (defn multiply [a b]
   (let [new (mat4/create)]
-    (mat4/multiply a b new)
+    (mat4/multiply new a b)
     new))
 
 (defn scale [mat scalar]
   (let [new (mat4/create)]
-    (mat4/multScalar mat scalar new)
+    (mat4/scale new mat scalar)
     new))
+
+(defn determinant [mat]
+  (mat4/determinant mat))
+
+(defn invert [mat]
+  (let [new (mat4/create)]
+    (mat4/invert new mat)))
+
+(defn look-at [eye center up]
+  (let [new (mat4/create)]
+    (mat4/lookAt new eye center up)))
+
+(defn translate [mat vec3]
+  (let [new (mat4/create)]
+    (mat4/translate new mat vec3)))
+
+(defn transpose [mat]
+  (let [new (mat4/create)]
+    (mat4/transpose new mat)))
+
 
 (defn- make-orthogonal [left right bottom top near far]
   (let [new (mat4/create)]
-    (mat4/makeOrtho new left right bottom top near far)))
+    (mat4/ortho new left right bottom top near far)))
 
 (defn- make-perspective [fov-y aspect-ratio near far]
   (let [new (mat4/create)]
-    (mat4/makePerspective new fov-y aspect-ratio near far)))
+    (mat4/perspective new fov-y aspect-ratio near far)))
 
 (defn camera
   ([default] (camera nil))
