@@ -1,5 +1,6 @@
 (ns triassic.example
   (:require [triassic.matrix :as matrix]
+            [triassic.vector :as vec3]
             [triassic.geometry :as geo]
             [triassic.utils :refer [init-gl init-shaders get-perspective-matrix
                                     get-position-matrix deg->rad animate]]
@@ -20,26 +21,7 @@
         shader-prog (init-shaders gl)
         pyramid-vertex-position-buffer
         (create-buffer gl
-                       (ta/float32 [
-                                    ; Front face
-                                    0.0,  1.0,  0.0,
-                                    -1.0, -1.0,  1.0,
-                                    1.0, -1.0,  1.0,
-
-                                    ; Right face
-                                    0.0,  1.0,  0.0,
-                                    1.0, -1.0,  1.0,
-                                    1.0, -1.0, -1.0,
-
-                                    ; Back face
-                                    0.0,  1.0,  0.0,
-                                    1.0, -1.0, -1.0,
-                                    -1.0, -1.0, -1.0,
-
-                                    ; Left face
-                                    0.0,  1.0,  0.0,
-                                    -1.0, -1.0, -1.0,
-                                    -1.0, -1.0,  1.0 ])
+                       (ta/float32 (geo/pyramid 1 2 4))
                        buffer-object/array-buffer
                        buffer-object/static-draw
                        3)
@@ -74,42 +56,7 @@
 
         cube-vertex-position-buffer
         (create-buffer gl
-                       (ta/float32 [
-                                    ; Front face
-                                    -1.0, -1.0,  1.0,
-                                    1.0, -1.0,  1.0,
-                                    1.0,  1.0,  1.0,
-                                    -1.0,  1.0,  1.0,
-
-                                    ; Back face
-                                    -1.0, -1.0, -1.0,
-                                    -1.0,  1.0, -1.0,
-                                    1.0,  1.0, -1.0,
-                                    1.0, -1.0, -1.0,
-
-                                    ; Top face
-                                    -1.0,  1.0, -1.0,
-                                    -1.0,  1.0,  1.0,
-                                    1.0,  1.0,  1.0,
-                                    1.0,  1.0, -1.0,
-
-                                    ; Bottom face
-                                    -1.0, -1.0, -1.0,
-                                    1.0, -1.0, -1.0,
-                                    1.0, -1.0,  1.0,
-                                    -1.0, -1.0,  1.0,
-
-                                    ; Right face
-                                    1.0, -1.0, -1.0,
-                                    1.0,  1.0, -1.0,
-                                    1.0,  1.0,  1.0,
-                                    1.0, -1.0,  1.0,
-
-                                    ; Left face
-                                    -1.0, -1.0, -1.0,
-                                    -1.0, -1.0,  1.0,
-                                    -1.0,  1.0,  1.0,
-                                    -1.0,  1.0, -1.0])
+                       (ta/float32 (geo/cube 2))
                        buffer-object/array-buffer
                        buffer-object/static-draw
                        3)

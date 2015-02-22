@@ -1,17 +1,35 @@
 (ns triassic.utils
   (:require
-    [vec3]
-    [mat4]
-    [cljs-webgl.buffers :refer [create-buffer clear-color-buffer draw!]]
-    [cljs-webgl.context :refer [get-context get-viewport]]
-    [cljs-webgl.shaders :refer [get-shader create-program get-attrib-location]]
-    [cljs-webgl.texture :refer [create-texture]]
-    [cljs-webgl.constants.texture-parameter-name :as texture-parameter-name]
-    [cljs-webgl.constants.texture-filter :as texture-filter]
-    [cljs-webgl.constants.webgl :as webgl]
-    [cljs-webgl.typed-arrays :as ta]))
+   [vec3]
+   [mat4]
+   [cljs-webgl.buffers :refer [create-buffer clear-color-buffer draw!]]
+   [cljs-webgl.context :refer [get-context]]
+   [cljs-webgl.constants.parameter-name :as parameter-name]
+   [cljs-webgl.shaders :refer [get-shader create-program get-attrib-location]]
+   [cljs-webgl.texture :refer [create-texture]]
+   [cljs-webgl.constants.texture-parameter-name :as texture-parameter-name]
+   [cljs-webgl.constants.texture-filter :as texture-filter]
+   [cljs-webgl.constants.webgl :as webgl]
+   [cljs-webgl.typed-arrays :as ta]))
 
 (enable-console-print!)
+
+
+(defn get-viewport
+  "Returns the current viewport for a given `gl-context` as a map with the form:
+
+  {:x,
+  :y,
+  :width,
+  :height}"
+  [gl-context]
+  (let [[x y w h] (.apply js/Array [] (.getParameter gl-context parameter-name/viewport))] ;; TODO: Is there any other way to access typed array values?
+    {:x      x,
+     :y      y,
+     :width  w,
+     :height h}))
+
+
 
 (defn init-gl [canvas]
   (let [gl (get-context canvas)]
@@ -28,11 +46,11 @@
   (let [{viewport-width :width,
          viewport-height :height} (get-viewport gl)]
     (mat4/perspective
-      (mat4/create)
-      45
-      (/  viewport-width viewport-height)
-      0.1
-      100.0)))
+     (mat4/create)
+     45
+     (/  viewport-width viewport-height)
+     0.1
+     100.0)))
 
 
 (defn get-position-matrix [v]
@@ -45,9 +63,9 @@
 
 (defn animate [draw-fn]
   (letfn [(loop [frame]
-                (fn []
-                  (.requestAnimFrame  js/window (loop (inc frame)))
-                  (draw-fn frame)))]
+            (fn []
+              (.requestAnimFrame  js/window (loop (inc frame)))
+              (draw-fn frame)))]
     ((loop 0))))
 
 (defn load-image
@@ -62,28 +80,28 @@
 ; TODO: deprecate this method?
 (defn load-texture
   "Loads the texture from the given URL. Note that the image is loaded in the background,
-   and the returned texture will not immediately be fully initialized."
+  and the returned texture will not immediately be fully initialized."
   [gl-context url callback-fn]
   (load-image url (fn [img] (callback-fn
-                              (create-texture
-                                gl-context
-                                :image img
-                                :pixel-store-modes {webgl/unpack-flip-y-webgl true}
-                                :parameters {texture-parameter-name/texture-mag-filter texture-filter/nearest
-                                             texture-parameter-name/texture-min-filter texture-filter/nearest})))))
+                             (create-texture
+                              gl-context
+                              :image img
+                              :pixel-store-modes {webgl/unpack-flip-y-webgl true}
+                              :parameters {texture-parameter-name/texture-mag-filter texture-filter/nearest
+                                           texture-parameter-name/texture-min-filter texture-filter/nearest})))))
 
 (defn checked? [element-id]
   (.-checked
-    (.getElementById
-      js/document
-      element-id)))
+   (.getElementById
+    js/document
+    element-id)))
 
 (defn get-float [element-id]
   (js/parseFloat
-    (.-value
-      (.getElementById
-        js/document
-        element-id))))
+   (.-value
+    (.getElementById
+     js/document
+     element-id))))
 
 (defn ambient-color []
   {:name "uAmbientColor"
@@ -123,6 +141,6 @@
 
 (defn lighting [use-lighting?]
   (cons
-    {:name "uUseLighting" :type :int :values (ta/int32 [(if use-lighting? 1 0)])}
-    (when use-lighting?
-      [(ambient-color) (lighting-direction) (directional-color) ])))
+   {:name "uUseLighting" :type :int :values (ta/int32 [(if use-lighting? 1 0)])}
+   (when use-lighting?
+     [(ambient-color) (lighting-direction) (directional-color) ])))
