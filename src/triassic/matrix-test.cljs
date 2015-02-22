@@ -34,7 +34,7 @@
     (is (= (vec3/dot vec1 vec2)  7))))
 
 (deftest vec3-magnitude
-  (is (= (vec3/magnitude (vec3/vector-3 1 -1 0) (.sqrt js/Math 2)))))
+  (is (= (vec3/magnitude (vec3/vector-3 1 -1 0)) (.sqrt js/Math 2))))
 
 (deftest vec3-normalize
   (is (= (vec3/vec3-str (vec3/normalize (vec3/vector-3 2 0 0)))  "vec3(1, 0, 0)")))

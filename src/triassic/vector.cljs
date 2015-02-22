@@ -8,6 +8,13 @@
 (defn vector-3 [x y z]
   (vec3/fromValues x y z))
 
+(defn x [vec3]
+  (aget vec3 0 ))
+(defn y [vec3]
+  (aget vec3 1 ))
+(defn z [vec3]
+  (aget vec3 2 ))
+
 (defn add [vec1 vec2]
   (let [new (vec3/create)]
     (vec3/add new vec1 vec2)))
