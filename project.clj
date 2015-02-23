@@ -18,7 +18,7 @@
                         :source-paths ["src"]
                         :compiler {
                                    :foreign-libs [
-                                                  {:file "resources/js/gl-matrix-min.js" :provides ["mat4","mat3","vec3"]}
+                                                  {:file "resources/js/gl-matrix-min.js" :provides ["mat4","mat3","vec3", "quat"]}
                                                   {:file "resources/js/webgl-utils.js" :provides ["WebGLUtils"]}]
                                    :output-to "out/triassic.js"
                                    :output-dir "target"

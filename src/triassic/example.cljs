@@ -15,13 +15,16 @@
             [cljs-webgl.typed-arrays :as ta]))
 
 
+(def rad1 0)
+(def rad2 0)
+
 (defn ^:export start []
   (let [canvas      (.getElementById js/document "canvas")
         gl          (init-gl canvas)
         shader-prog (init-shaders gl)
         pyramid-vertex-position-buffer
         (create-buffer gl
-                       (ta/float32 (geo/pyramid 1 2 4))
+                       (ta/float32 (geo/pyramid 2 2 2))
                        buffer-object/array-buffer
                        buffer-object/static-draw
                        3)
@@ -124,49 +127,64 @@
         one-degree (deg->rad 1)]
 
     (animate
-      (fn [frame] ; frame is not used
+     (fn [frame] ; frame is not used
 
-        (clear-color-buffer gl 0.0 0.0 0.0 1.0)
-        (clear-depth-buffer gl 1)
+       (clear-color-buffer gl 0.0 0.0 0.0 1.0)
+       (clear-depth-buffer gl 1)
 
-        ; Diverges slightly from the LearningWegGL example:
-        ; We just rotate the matrices by 1 degree on each frame
+       ; Diverges slightly from the LearningWegGL example:
+       ; We just rotate the matrices by 1 degree on each frame
 
-        ; gl-matrix relies on mutating the matrices
-        ; ... let's gloss over those details for the moment
-        (mat4/rotate
-          pyramid-matrix
-          pyramid-matrix
-          one-degree
-          (ta/float32 [0 1 0]))
+       ; gl-matrix relies on mutating the matrices
+       ; ... let's gloss over those details for the moment
+       ;;         (mat4/rotate
+       ;;           pyramid-matrix
+       ;;           pyramid-matrix
+       ;;           one-degree
+       ;;           (ta/float32 [0 1 0]))
 
-        (mat4/rotate
-          cube-matrix
-          cube-matrix
-          one-degree
-          (ta/float32 [1 1 1]))
 
-        ; TODO: there's no point in building these structures each time
-        ;       - should be able to do something like: (apply draw! gl opts)
-        (draw!
-          gl
-          :shader shader-prog
-          :draw-mode draw-mode/triangles
-          :count (.-numItems pyramid-vertex-position-buffer)
-          :attributes [{:buffer pyramid-vertex-position-buffer :location vertex-position-attribute}
-                       {:buffer pyramid-vertex-color-buffer :location vertex-color-attribute}]
-          :uniforms [{:name "uPMatrix" :type :mat4 :values perspective-matrix}
-                     {:name "uMVMatrix" :type :mat4 :values pyramid-matrix}]
-          :capabilities {capability/depth-test true})
+;;        (mat4/rotate
+;;         cube-matrix
+;;         cube-matrix
+;;         one-degree
+;;         (ta/float32 [1 1 1]))
 
-        (draw!
-          gl
-          :shader shader-prog
-          :draw-mode draw-mode/triangles
-          :count (.-numItems cube-vertex-indices)
-          :attributes [{:buffer cube-vertex-position-buffer :location vertex-position-attribute}
-                       {:buffer cube-vertex-color-buffer :location vertex-color-attribute}]
-          :uniforms [{:name "uPMatrix" :type :mat4 :values perspective-matrix}
-                     {:name "uMVMatrix" :type :mat4 :values cube-matrix}]
-          :element-array {:buffer cube-vertex-indices :type data-type/unsigned-short :offset 0}
-          :capabilities {capability/depth-test true})))))
+       ; TODO: there's no point in building these structures each time
+       ;       - should be able to do something like: (apply draw! gl opts)
+
+       (set! rad1 (inc rad1))
+       (set! rad2 (inc rad2))
+
+       (draw!
+        gl
+        :shader shader-prog
+        :draw-mode draw-mode/triangles
+        :count (.-numItems pyramid-vertex-position-buffer)
+        :attributes [{:buffer pyramid-vertex-position-buffer :location vertex-position-attribute}
+                     {:buffer pyramid-vertex-color-buffer :location vertex-color-attribute}]
+        :uniforms [{:name "uPMatrix" :type :mat4 :values perspective-matrix}
+                   {:name "uMVMatrix"
+                    :type :mat4
+                    :values (matrix/rotate
+                             pyramid-matrix
+                             (vec3/vector-3 0 1 0)
+                             (/ rad1 100))}]
+        :capabilities {capability/depth-test true})
+
+       (draw!
+        gl
+        :shader shader-prog
+        :draw-mode draw-mode/triangles
+        :count (.-numItems cube-vertex-indices)
+        :attributes [{:buffer cube-vertex-position-buffer :location vertex-position-attribute}
+                     {:buffer cube-vertex-color-buffer :location vertex-color-attribute}]
+        :uniforms [{:name "uPMatrix" :type :mat4 :values perspective-matrix}
+                   {:name "uMVMatrix"
+                    :type :mat4
+                    :values (matrix/rotate
+                             cube-matrix
+                             (vec3/vector-3 1 1 1)
+                             (/ rad2 100))}]
+        :element-array {:buffer cube-vertex-indices :type data-type/unsigned-short :offset 0}
+        :capabilities {capability/depth-test true})))))

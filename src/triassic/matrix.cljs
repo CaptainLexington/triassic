@@ -1,5 +1,7 @@
 (ns triassic.matrix
   (:require [mat4]
+            [quat]
+            [triassic.vector :as vec3]
             [triassic.utils :as utils]))
 
 
@@ -15,6 +17,11 @@
 (defn multiply [a b]
   (let [new (mat4/create)]
     (mat4/multiply new a b)
+    new))
+
+(defn from-quaternion [quat]
+  (let [new (mat4/create)]
+    (mat4/fromQuat new quat)
     new))
 
 (defn scale [mat scalar]
@@ -37,6 +44,9 @@
   (let [new (mat4/create)]
     (mat4/translate new mat vec3)))
 
+(defn rotate [mat axis angle]
+  (let [new (mat4/create)]
+    (mat4/rotate new mat angle axis)))
 (defn transpose [mat]
   (let [new (mat4/create)]
     (mat4/transpose new mat)))
