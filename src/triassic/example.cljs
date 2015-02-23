@@ -168,7 +168,7 @@
                     :type :mat4
                     :values (matrix/rotate
                              pyramid-matrix
-                             (vec3/vector-3 0 1 0)
+                             :y
                              (/ rad1 100))}]
         :capabilities {capability/depth-test true})
 
@@ -185,6 +185,6 @@
                     :values (matrix/rotate
                              cube-matrix
                              (vec3/vector-3 1 1 1)
-                             (/ rad2 100))}]
+                             (- (/ rad2 100)))}]
         :element-array {:buffer cube-vertex-indices :type data-type/unsigned-short :offset 0}
         :capabilities {capability/depth-test true})))))

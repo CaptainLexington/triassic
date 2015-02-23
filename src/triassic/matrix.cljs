@@ -46,7 +46,14 @@
 
 (defn rotate [mat axis angle]
   (let [new (mat4/create)]
-    (mat4/rotate new mat angle axis)))
+    (case axis
+      :x (mat4/rotate new mat angle (vec3/vector-3 1 0 0))
+      :y (mat4/rotate new mat angle (vec3/vector-3 0 1 0))
+      :z (mat4/rotate new mat angle (vec3/vector-3 0 0 1))
+      (mat4/rotate new mat angle axis))
+    new))
+
+
 (defn transpose [mat]
   (let [new (mat4/create)]
     (mat4/transpose new mat)))
