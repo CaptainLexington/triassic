@@ -3,6 +3,9 @@
 ;;This is file is generated from https://github.com/codebrainz/color-names
 ;;which in turn was harvested from Wikipedia
 
+;;grey/gray inconsistencies have been unified to gray
+;; TODO: alias all grays as grey
+
 
 (def air-force-blue-raf {:name "Air Force Blue (Raf)", :hex "#5d8aa8", :r "93", :g "138", :b "168"})
 (def air-force-blue-usaf {:name "Air Force Blue (Usaf)", :hex "#00308f", :r "0", :g "48", :b "143"})
@@ -31,7 +34,7 @@
 (def army-green {:name "Army Green", :hex "#4b5320", :r "75", :g "83", :b "32"})
 (def arsenic {:name "Arsenic", :hex "#3b444b", :r "59", :g "68", :b "75"})
 (def arylide-yellow {:name "Arylide Yellow", :hex "#e9d66b", :r "233", :g "214", :b "107"})
-(def ash-grey {:name "Ash Grey", :hex "#b2beb5", :r "178", :g "190", :b "181"})
+(def ash-gray {:name "Ash Gray", :hex "#b2beb5", :r "178", :g "190", :b "181"})
 (def asparagus {:name "Asparagus", :hex "#87a96b", :r "135", :g "169", :b "107"})
 (def atomic-tangerine {:name "Atomic Tangerine", :hex "#f96", :r "255", :g "153", :b "102"})
 (def auburn {:name "Auburn", :hex "#a52a2a", :r "165", :g "42", :b "42"})
@@ -47,7 +50,7 @@
 (def banana-mania {:name "Banana Mania", :hex "#fae7b5", :r "250", :g "231", :b "181"})
 (def banana-yellow {:name "Banana Yellow", :hex "#ffe135", :r "255", :g "225", :b "53"})
 (def barn-red {:name "Barn Red", :hex "#7c0a02", :r "124", :g "10", :b "2"})
-(def battleship-grey {:name "Battleship Grey", :hex "#848482", :r "132", :g "132", :b "130"})
+(def battleship-gray {:name "Battleship Gray", :hex "#848482", :r "132", :g "132", :b "130"})
 (def bazaar {:name "Bazaar", :hex "#98777b", :r "152", :g "119", :b "123"})
 (def beau-blue {:name "Beau Blue", :hex "#bcd4e6", :r "188", :g "212", :b "230"})
 (def beaver {:name "Beaver", :hex "#9f8170", :r "159", :g "129", :b "112"})
@@ -114,7 +117,7 @@
 (def byzantium {:name "Byzantium", :hex "#702963", :r "112", :g "41", :b "99"})
 (def cadet {:name "Cadet", :hex "#536872", :r "83", :g "104", :b "114"})
 (def cadet-blue {:name "Cadet Blue", :hex "#5f9ea0", :r "95", :g "158", :b "160"})
-(def cadet-grey {:name "Cadet Grey", :hex "#91a3b0", :r "145", :g "163", :b "176"})
+(def cadet-gray {:name "Cadet Gray", :hex "#91a3b0", :r "145", :g "163", :b "176"})
 (def cadmium-green {:name "Cadmium Green", :hex "#006b3c", :r "0", :g "107", :b "60"})
 (def cadmium-orange {:name "Cadmium Orange", :hex "#ed872d", :r "237", :g "135", :b "45"})
 (def cadmium-red {:name "Cadmium Red", :hex "#e30022", :r "227", :g "0", :b "34"})
@@ -181,7 +184,7 @@
 (def columbia-blue {:name "Columbia Blue", :hex "#9bddff", :r "155", :g "221", :b "255"})
 (def congo-pink {:name "Congo Pink", :hex "#f88379", :r "248", :g "131", :b "121"})
 (def cool-black {:name "Cool Black", :hex "#002e63", :r "0", :g "46", :b "99"})
-(def cool-grey {:name "Cool Grey", :hex "#8c92ac", :r "140", :g "146", :b "172"})
+(def cool-gray {:name "Cool Gray", :hex "#8c92ac", :r "140", :g "146", :b "172"})
 (def copper {:name "Copper", :hex "#b87333", :r "184", :g "115", :b "51"})
 (def copper-crayola {:name "Copper (Crayola)", :hex "#da8a67", :r "218", :g "138", :b "103"})
 (def copper-penny {:name "Copper Penny", :hex "#ad6f69", :r "173", :g "111", :b "105"})
@@ -250,7 +253,7 @@
 (def dark-violet {:name "Dark Violet", :hex "#9400d3", :r "148", :g "0", :b "211"})
 (def dark-yellow {:name "Dark Yellow", :hex "#9b870c", :r "155", :g "135", :b "12"})
 (def dartmouth-green {:name "Dartmouth Green", :hex "#00703c", :r "0", :g "112", :b "60"})
-(def davy-s-grey {:name "Davy'S Grey", :hex "#555", :r "85", :g "85", :b "85"})
+(def davy-s-gray {:name "Davy'S Gray", :hex "#555", :r "85", :g "85", :b "85"})
 (def debian-red {:name "Debian Red", :hex "#d70a53", :r "215", :g "10", :b "83"})
 (def deep-carmine {:name "Deep Carmine", :hex "#a9203e", :r "169", :g "32", :b "62"})
 (def deep-carmine-pink {:name "Deep Carmine Pink", :hex "#ef3038", :r "239", :g "48", :b "56"})
@@ -602,7 +605,7 @@
 (def pastel-violet {:name "Pastel Violet", :hex "#cb99c9", :r "203", :g "153", :b "201"})
 (def pastel-yellow {:name "Pastel Yellow", :hex "#fdfd96", :r "253", :g "253", :b "150"})
 (def patriarch {:name "Patriarch", :hex "#800080", :r "128", :g "0", :b "128"})
-(def payne-s-grey {:name "Payne'S Grey", :hex "#536878", :r "83", :g "104", :b "120"})
+(def payne-s-gray {:name "Payne'S Gray", :hex "#536878", :r "83", :g "104", :b "120"})
 (def peach {:name "Peach", :hex "#ffe5b4", :r "255", :g "229", :b "180"})
 (def peach-crayola {:name "Peach (Crayola)", :hex "#ffcba4", :r "255", :g "203", :b "164"})
 (def peach-orange {:name "Peach-Orange", :hex "#fc9", :r "255", :g "204", :b "153"})
@@ -793,7 +796,7 @@
 (def toolbox {:name "Toolbox", :hex "#746cc0", :r "116", :g "108", :b "192"})
 (def topaz {:name "Topaz", :hex "#ffc87c", :r "255", :g "200", :b "124"})
 (def tractor-red {:name "Tractor Red", :hex "#fd0e35", :r "253", :g "14", :b "53"})
-(def trolley-grey {:name "Trolley Grey", :hex "#808080", :r "128", :g "128", :b "128"})
+(def trolley-gray {:name "Trolley Gray", :hex "#808080", :r "128", :g "128", :b "128"})
 (def tropical-rain-forest {:name "Tropical Rain Forest", :hex "#00755e", :r "0", :g "117", :b "94"})
 (def true-blue {:name "True Blue", :hex "#0073cf", :r "0", :g "115", :b "207"})
 (def tufts-blue {:name "Tufts Blue", :hex "#417dc1", :r "65", :g "125", :b "193"})
