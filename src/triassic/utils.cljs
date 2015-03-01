@@ -14,6 +14,8 @@
 
 (enable-console-print!)
 
+(defn mapply [f & args]
+  (apply f (apply concat (butlast args) (last args))))
 
 (defn get-viewport
   "Returns the current viewport for a given `gl-context` as a map with the form:
