@@ -3,6 +3,38 @@
             [triassic.vector :as vector]))
 
 
+;;Geometry transformations
+
+(defn- transform [mesh transformation & opts]
+  (assoc
+    mesh
+    :transformation-matrix
+    (apply (partial transformation
+                    (:transformation-matrix mesh))
+           opts)))
+
+(defn rotate [mesh axis angle]
+  (transform
+    mesh
+    matrix/rotate
+    axis
+    angle))
+
+(defn translate [mesh vec3]
+  (transform
+    mesh
+    matrix/translate
+    vec3))
+
+(defn scale [mesh scalar]
+  (transform
+    mesh
+    matrix/scale
+    scalar))
+
+
+
+
 (defn box [diagonal]
   (let [x (/ (vector/x diagonal) 2)
         y (/ (vector/y diagonal) 2)

@@ -50,6 +50,10 @@
       :x (mat4/rotate new mat angle (vec3/vector-3 1 0 0))
       :y (mat4/rotate new mat angle (vec3/vector-3 0 1 0))
       :z (mat4/rotate new mat angle (vec3/vector-3 0 0 1))
+      :xy (mat4/rotate new mat angle (vec3/vector-3 1 1 0))
+      :yz (mat4/rotate new mat angle (vec3/vector-3 0 1 1))
+      :xz (mat4/rotate new mat angle (vec3/vector-3 1 0 1))
+      :xyz (mat4/rotate new mat angle (vec3/vector-3 1 1 1))
       (mat4/rotate new mat angle axis))
     new))
 

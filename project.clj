@@ -3,13 +3,18 @@
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2311"]
+                 [org.clojure/clojurescript "0.0-2913"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [net.mikera/core.matrix "0.31.1"]
                  [cljs-webgl "0.1.5-SNAPSHOT"]
+                 [com.cemerick/piggieback "0.1.5"]
+                 [weasel "0.6.0"]
                  [com.cemerick/clojurescript.test "0.3.3"]]
 
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]
             [com.cemerick/clojurescript.test "0.3.3"]]
+
+  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
   :source-paths ["src/cljs"]
 
