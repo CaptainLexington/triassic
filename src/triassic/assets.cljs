@@ -22,17 +22,30 @@
     (goog.net.XhrIo/send url (fn [e]
                                (->> e
                                     .-target
-                                    .getResponseJson
-                                    js->clj
-                                    fixup-keys
+                                    .getResponse
+                                    ;js->clj
+                                    ;fixup-keys
                                     (put! c))))
-    c))*
+    c))
+
+(def a (go (println (<! (go (<! (http-get "/test.json")))))))
+
+(def b (go (println (<! (go (<! (http-get "/test.json")))))))
+
+
+
+(defn load-asset [k v process-function a]
+  (go (swap! a
+             assoc
+             k
+             (process-function
+               (<! (go (<! (http-get v))))))))    
 
 
 (defn load-assets [gl asset-locations callback-fn]
   (create-texture
     gl
-    :image img
+    :image nil
     :pixel-store-modes {webgl/unpack-flip-y-webgl true}
     :parameters {texture-parameter-name/texture-mag-filter texture-filter/nearest
                  texture-parameter-name/texture-min-filter texture-filter/nearest}))
