@@ -6,7 +6,7 @@
             [triassic.materials :as materials]
             [triassic.utils :refer [init-gl animate mapply]]
             [triassic.render :as render]
-            [triassic.assets :as asstes]
+            [triassic.assets :as assets]
             [triassic.utils :as utils]
             [WebGLUtils]
             [mat4]
@@ -26,7 +26,10 @@
       (geo/translate displacement)
       (geo/rotate axis angle)))
 
-(defn ^:export start []
+(def ass {:a "/dino.obj"
+          :b "/nehe.gif"})
+
+(defn init [asses]
   (let [canvas (.getElementById js/document "canvas")
         gl (init-gl canvas)
         {viewport-width  :width,
@@ -35,44 +38,47 @@
                               (/ viewport-width viewport-height)
                               0.1
                               100.0)
-        cube-material (materials/image-map gl
-                                           [
-                                            ; Front face
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0,
+        ;cube-material (materials/image-map gl
+        ;                                   [
+        ;                                    ; Front face
+        ;                                    0.0, 0.0,
+        ;                                    1.0, 0.0,
+        ;                                    1.0, 1.0,
+        ;                                    0.0, 1.0,
+        ;
+        ;                                    ; Back face
+        ;                                    1.0, 0.0,
+        ;                                    1.0, 1.0,
+        ;                                    0.0, 1.0,
+        ;                                    0.0, 0.0,
+        ;
+        ;                                    ; Top face
+        ;                                    0.0, 1.0,
+        ;                                    0.0, 0.0,
+        ;                                    1.0, 0.0,
+        ;                                    1.0, 1.0,
+        ;
+        ;                                    ; Bottom face
+        ;                                    1.0, 1.0,
+        ;                                    0.0, 1.0,
+        ;                                    0.0, 0.0,
+        ;                                    1.0, 0.0,
+        ;
+        ;                                    ; Right face
+        ;                                    1.0, 0.0,
+        ;                                    1.0, 1.0,
+        ;                                    0.0, 1.0,
+        ;                                    0.0, 0.0,
+        ;
+        ;                                    ; Left face
+        ;                                    0.0, 0.0,
+        ;                                    1.0, 0.0,
+        ;                                    1.0, 1.0,
+        ;                                    0.0, 1.0, ]
+        ;                                   "nehe.gif")
 
-                                            ; Back face
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0,
-                                            0.0, 0.0,
 
-                                            ; Top face
-                                            0.0, 1.0,
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-
-                                            ; Bottom face
-                                            1.0, 1.0,
-                                            0.0, 1.0,
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-
-                                            ; Right face
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0,
-                                            0.0, 0.0,
-
-                                            ; Left face
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0, ]
-                                           "nehe.gif")
+        cube-material (materials/solid-color gl 1 0 0 1)
 
         pyramid-material (materials/color-map gl
                                               [
@@ -101,6 +107,7 @@
         pyramid (mesh/pyramid 2 2 2 pyramid-material)
         pyramid-displacement (vec3/vector-3 -1.5 0 -8)]
 
+    (.log js/console asses)
     (animate
       (fn [frame]                                           ; frame is not used
 
@@ -115,8 +122,12 @@
                                                pyramid-displacement
                                                :y
                                                (/ rad2 25))
-                              (move-and-rotate cube
-                                               cube-displacement
-                                               :xyz
-                                               (/ rad1 50))]
+                              ;(move-and-rotate cube
+                              ;                 cube-displacement
+                              ;                 :xyz
+                              ;                 (/ rad1 50))
+                              ]
                              camera)))))
+
+(defn ^:export start []
+  (assets/load-assets nil ass init))
