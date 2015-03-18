@@ -31,25 +31,28 @@
 
 
 
-(defn solid-color [gl r g b a]
-  (let [fragment
-        (str "precision mediump float;
+(defn solid-color
+  ([gl r g b a]
+   (let [fragment
+         (str "precision mediump float;
               varying vec4 vColor;
               void main(void) {
                  gl_FragColor = vec4("
-             r
-             ", "
-             g
-             ","
-             b
-             ","
-             a
-             ");
-        }")
-        shader (shader-program-from-source gl
-                                           fragment
-                                           vertex-shader)]
-    {:shader shader}))
+              r
+              ", "
+              g
+              ","
+              b
+              ","
+              a
+              ");
+         }")
+         shader (shader-program-from-source gl
+                                            fragment
+                                            vertex-shader)]
+     {:shader shader}))
+  ([gl [r g b] a]
+    (solid-color gl r g b a)))
 
 
 (defn color-map [gl vertices]
@@ -64,15 +67,15 @@
         shader (shader-program-from-source gl
                                            fragment
                                            vertex-shader)]
-    {:shader shader
-     :attribute {:buffer (create-buffer gl
-                                         (ta/float32 vertices)
-                                         buffer-object/array-buffer
-                                         buffer-object/static-draw
-                                         4)
+    {:shader    shader
+     :attribute [{:buffer   (create-buffer gl
+                                           (ta/float32 vertices)
+                                           buffer-object/array-buffer
+                                           buffer-object/static-draw
+                                           4)
                   :location (get-attrib-location gl
                                                  shader
-                                                 "aVertexColor")}}))
+                                                 "aVertexColor")}]}))
 
 (defn image-map [gl vertices texture]
   (let [fragment
@@ -99,13 +102,13 @@
                                            vertex)]
 
     {:shader    shader
-     :attribute {:buffer   (create-buffer gl
-                                          (ta/float32 vertices)
-                                          buffer-object/array-buffer
-                                          buffer-object/static-draw
-                                          2)
-                 :location (get-attrib-location gl
-                                                shader
-                                                "aTextureCoord")}
+     :attribute [{:buffer   (create-buffer gl
+                                           (ta/float32 vertices)
+                                           buffer-object/array-buffer
+                                           buffer-object/static-draw
+                                           2)
+                  :location (get-attrib-location gl
+                                                 shader
+                                                 "aTextureCoord")}]
      :textures  [{:buffer  "uSampler"
                   :texture texture}]}))

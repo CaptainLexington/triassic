@@ -32,9 +32,9 @@
                            buffer-object/static-draw
                            1))]
     (assoc mesh
-      :attributes [{:buffer   vertex-position-buffer
-                    :location vertex-position-attribute}
-                   (:attribute (:material mesh))]
+      :attributes (apply conj [{:buffer   vertex-position-buffer
+                            :location vertex-position-attribute}]
+                          (:attribute (:material mesh)))
 
       :uniforms [{:name   "uPMatrix"
                   :type   :mat4

@@ -26,7 +26,7 @@
 
 (defn scale [mat scalar]
   (let [new (mat4/create)]
-    (mat4/scale new mat scalar)
+    (mat4/scale new mat (vec3/vector-3 scalar scalar scalar))
     new))
 
 (defn determinant [mat]

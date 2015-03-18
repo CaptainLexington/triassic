@@ -12,12 +12,12 @@
 
 
 
-(defn mesh [vertices indices material]
+(defn mesh [geometry material]
   {
-   :vertices              vertices
-   :indices               indices
+   :vertices              (:vertices geometry)
+   :indices               (:indices geometry)
    :transformation-matrix (matrix/identity-matrix)
-   :material                material
+   :material              material
    })
 
 (defn cube [length material]
@@ -29,9 +29,9 @@
                  12, 13, 14,   12, 14, 15,   ; Bottom face
                  16, 17, 18,   16, 18, 19,   ; Right face
                  20, 21, 22,   20, 22, 23]]
-    (mesh vertices indices material)))
+    (mesh {:vertices vertices :indices indices} material)))
 
 
 (defn pyramid [length width height material]
   (let [vertices (geo/pyramid length width height)]
-    (mesh vertices nil material)))
+    (mesh {:vertices vertices} material)))

@@ -5,6 +5,11 @@
 
 ;;grey/gray inconsistencies have been unified to gray, with aliases for grey
 
+(defn rgb [color]
+  (map #(/ % 255) (:rgb color)))
+
+
+
 (def air-force-blue-raf {:name "Air Force Blue (Raf)", :hex "#5d8aa8", :rgb [93 138 168]})
 (def air-force-blue-usaf {:name "Air Force Blue (Usaf)", :hex "#00308f", :rgb [0 48 143]})
 (def air-superiority-blue {:name "Air Superiority Blue", :hex "#72a0c1", :rgb [114 160 193]})
