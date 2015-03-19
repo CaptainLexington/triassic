@@ -1,9 +1,13 @@
 (ns triassic.materials
   (:require [cljs-webgl.shaders :refer [get-shader create-shader create-program get-attrib-location]]
             [cljs-webgl.buffers :refer [create-buffer clear-color-buffer clear-depth-buffer draw!]]
+            [cljs-webgl.texture :refer [create-texture]]
             [cljs-webgl.typed-arrays :as ta]
             [cljs-webgl.constants.buffer-object :as buffer-object]
-            [triassic.utils :as utils]))
+            [triassic.utils :as utils]
+            [cljs-webgl.constants.webgl :as webgl]
+            [cljs-webgl.constants.texture-parameter-name :as texture-parameter-name]
+            [cljs-webgl.constants.texture-filter :as texture-filter]))
 
 (def vertex-shader
   "attribute vec3 aVertexPosition;
@@ -52,7 +56,7 @@
                                             vertex-shader)]
      {:shader shader}))
   ([gl [r g b] a]
-    (solid-color gl r g b a)))
+   (solid-color gl r g b a)))
 
 
 (defn color-map [gl vertices]
@@ -77,7 +81,7 @@
                                                  shader
                                                  "aVertexColor")}]}))
 
-(defn image-map [gl vertices texture]
+(defn image-map [gl vertices img]
   (let [fragment
         "precision mediump float;
          varying vec2 vTextureCoord;
@@ -99,7 +103,13 @@
         "
         shader (shader-program-from-source gl
                                            fragment
-                                           vertex)]
+                                           vertex)
+        texture (create-texture
+                  gl
+                  :image img
+                  :pixel-store-modes {webgl/unpack-flip-y-webgl true}
+                  :parameters {texture-parameter-name/texture-mag-filter texture-filter/nearest
+                               texture-parameter-name/texture-min-filter texture-filter/nearest})]
 
     {:shader    shader
      :attribute [{:buffer   (create-buffer gl

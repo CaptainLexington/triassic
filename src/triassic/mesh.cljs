@@ -12,15 +12,26 @@
 
 
 
-(defn mesh [geometry material]
+(defn mesh [gl geometry material]
   {
-   :vertices              (:vertices geometry)
-   :indices               (:indices geometry)
+   :vertices              (create-buffer gl
+                                         (ta/float32 (:vertices geometry))
+                                         buffer-object/array-buffer
+                                         buffer-object/static-draw
+                                         3)
+   :indices               (if (nil? (:indices geometry))
+                            nil
+                            (create-buffer
+                              gl
+                              (ta/unsigned-int16 (:indices geometry))
+                              buffer-object/element-array-buffer
+                              buffer-object/static-draw
+                              1))
    :transformation-matrix (matrix/identity-matrix)
    :material              material
    })
 
-(defn cube [length material]
+(defn cube [gl length material]
   (let [vertices (geo/cube length)
 
         indices [0, 1, 2,      0, 2, 3,      ; Front face
@@ -29,9 +40,9 @@
                  12, 13, 14,   12, 14, 15,   ; Bottom face
                  16, 17, 18,   16, 18, 19,   ; Right face
                  20, 21, 22,   20, 22, 23]]
-    (mesh {:vertices vertices :indices indices} material)))
+    (mesh gl {:vertices vertices :indices indices} material)))
 
 
-(defn pyramid [length width height material]
+(defn pyramid [gl length width height material]
   (let [vertices (geo/pyramid length width height)]
-    (mesh {:vertices vertices} material)))
+    (mesh gl {:vertices vertices} material)))

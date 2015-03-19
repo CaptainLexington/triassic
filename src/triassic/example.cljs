@@ -27,9 +27,8 @@
       (geo/translate displacement)
       (geo/rotate axis angle)))
 
-(def ass {:dino (assets/lw-obj "/dino.obj")
-          :texture {:value "/test.json"
-              :fn    identity}})
+(def ass {:dino (assets/lw-obj "/resources/obj/capsule.obj")
+          :texture (assets/img "/resources/obj/capsule0.jpg")})
 
 (defn init [asses]
   (let [canvas (.getElementById js/document "canvas")
@@ -40,88 +39,91 @@
                               (/ viewport-width viewport-height)
                               0.1
                               100.0)
-        ;cube-material (materials/image-map gl
-        ;                                   [
-        ;                                    ; Front face
-        ;                                    0.0, 0.0,
-        ;                                    1.0, 0.0,
-        ;                                    1.0, 1.0,
-        ;                                    0.0, 1.0,
-        ;
-        ;                                    ; Back face
-        ;                                    1.0, 0.0,
-        ;                                    1.0, 1.0,
-        ;                                    0.0, 1.0,
-        ;                                    0.0, 0.0,
-        ;
-        ;                                    ; Top face
-        ;                                    0.0, 1.0,
-        ;                                    0.0, 0.0,
-        ;                                    1.0, 0.0,
-        ;                                    1.0, 1.0,
-        ;
-        ;                                    ; Bottom face
-        ;                                    1.0, 1.0,
-        ;                                    0.0, 1.0,
-        ;                                    0.0, 0.0,
-        ;                                    1.0, 0.0,
-        ;
-        ;                                    ; Right face
-        ;                                    1.0, 0.0,
-        ;                                    1.0, 1.0,
-        ;                                    0.0, 1.0,
-        ;                                    0.0, 0.0,
-        ;
-        ;                                    ; Left face
-        ;                                    0.0, 0.0,
-        ;                                    1.0, 0.0,
-        ;                                    1.0, 1.0,
-        ;                                    0.0, 1.0, ]
-        ;                                   "nehe.gif")
+        cube-material-2 (materials/image-map gl
+                                           [
+                                            ; Front face
+                                            0.0, 0.0,
+                                            1.0, 0.0,
+                                            1.0, 1.0,
+                                            0.0, 1.0,
+
+                                            ; Back face
+                                            1.0, 0.0,
+                                            1.0, 1.0,
+                                            0.0, 1.0,
+                                            0.0, 0.0,
+
+                                            ; Top face
+                                            0.0, 1.0,
+                                            0.0, 0.0,
+                                            1.0, 0.0,
+                                            1.0, 1.0,
+
+                                            ; Bottom face
+                                            1.0, 1.0,
+                                            0.0, 1.0,
+                                            0.0, 0.0,
+                                            1.0, 0.0,
+
+                                            ; Right face
+                                            1.0, 0.0,
+                                            1.0, 1.0,
+                                            0.0, 1.0,
+                                            0.0, 0.0,
+
+                                            ; Left face
+                                            0.0, 0.0,
+                                            1.0, 0.0,
+                                            1.0, 1.0,
+                                            0.0, 1.0, ]
+                                           (:texture asses))
 
 
-        cube-material (materials/solid-color gl (colors/rgb colors/violet) 1)
+        trex-material (materials/image-map gl
+                                           (:uv-coords (:dino asses))
+                                           (:texture asses))
+
+
+        cube-material (materials/solid-color gl (colors/rgb colors/forest-green-traditional) 1)
 
         pyramid-material-2 (materials/solid-color gl (colors/rgb colors/beige) 1)
 
-        pyramid-material (materials/color-map gl
-                                              [
-                                               ; Front face
-                                               1.0, 0.0, 0.0, 1.0,
-                                               0.0, 1.0, 0.0, 1.0,
-                                               0.0, 0.0, 1.0, 1.0,
+        ;pyramid-material (materials/color-map gl
+        ;                                      [
+        ;                                       ; Front face
+        ;                                       1.0, 0.0, 0.0, 1.0,
+        ;                                       0.0, 1.0, 0.0, 1.0,
+        ;                                       0.0, 0.0, 1.0, 1.0,
+        ;
+        ;                                       ; Right face
+        ;                                       1.0, 0.0, 0.0, 1.0,
+        ;                                       0.0, 0.0, 1.0, 1.0,
+        ;                                       0.0, 1.0, 0.0, 1.0,
+        ;
+        ;                                       ; Back face
+        ;                                       1.0, 0.0, 0.0, 1.0,
+        ;                                       0.0, 1.0, 0.0, 1.0,
+        ;                                       0.0, 0.0, 1.0, 1.0,
+        ;
+        ;                                       ; Left face
+        ;                                       1.0, 0.0, 0.0, 1.0,
+        ;                                       0.0, 0.0, 1.0, 1.0,
+        ;                                       0.0, 1.0, 0.0, 1.0 ])
 
-                                               ; Right face
-                                               1.0, 0.0, 0.0, 1.0,
-                                               0.0, 0.0, 1.0, 1.0,
-                                               0.0, 1.0, 0.0, 1.0,
-
-                                               ; Back face
-                                               1.0, 0.0, 0.0, 1.0,
-                                               0.0, 1.0, 0.0, 1.0,
-                                               0.0, 0.0, 1.0, 1.0,
-
-                                               ; Left face
-                                               1.0, 0.0, 0.0, 1.0,
-                                               0.0, 0.0, 1.0, 1.0,
-                                               0.0, 1.0, 0.0, 1.0 ])
-
-        cube (mesh/cube 2 cube-material)
-        dino (mesh/mesh (:dino asses) pyramid-material)
-        cube-displacement (vec3/vector-3 1.5 0 -8)
-        pyramid (mesh/pyramid 2 2 2 pyramid-material)
+        cube (mesh/cube gl 2 cube-material-2)
+        dino (mesh/mesh gl (:dino asses) trex-material)
+        cube-displacement (vec3/vector-3 0 0 -8)
+        ;pyramid (mesh/pyramid 2 2 2 pyramid-material)
         pyramid-displacement (vec3/vector-3 -1.5 0 -8)]
 
 
-    (.log js/console asses)
-    (.log js/console (:vertices cube))
-    (.log js/console (:vertices dino))
 
+    (.log js/console (apply array (:uv-coords (:dino asses))))
 
     (animate
       (fn [frame]                                           ; frame is not used
 
-        (clear-color-buffer gl 0.0 0.0 0.0 1.0)
+        (apply clear-color-buffer gl (colors/rgba colors/forest-green-traditional))
         (clear-depth-buffer gl 1)
 
         (set! rad2 (dec rad2))
@@ -129,14 +131,16 @@
 
         (render/double-draw! gl
                              [
-                              (move-and-rotate cube
-                                               pyramid-displacement
+                              ;(move-and-rotate cube
+                              ;                 pyramid-displacement
+                              ;                 :y
+                              ;                 (/ rad2 25))
+
+                              ;dino
+                              (move-and-rotate dino
+                                               cube-displacement
                                                :y
-                                               (/ rad2 25))
-                              ;(move-and-rotate dino
-                              ;                 cube-displacement
-                              ;                 :xyz
-                              ;                 (/ rad1 50))
+                                               (/ rad1 50))
                               ]
                              camera)))))
 

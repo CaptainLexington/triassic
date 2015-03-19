@@ -13,25 +13,31 @@
 
 
 (defn webglify [gl mesh camera]
-  (let [vertex-position-buffer (create-buffer gl
-                                              (ta/float32 (:vertices mesh))
-                                              buffer-object/array-buffer
-                                              buffer-object/static-draw
-                                              3)
+  (let [
+        ;vertex-position-buffer (create-buffer gl
+        ;                                      (ta/float32 (:vertices mesh))
+        ;                                      buffer-object/array-buffer
+        ;                                      buffer-object/static-draw
+        ;                                      3)
+
+        vertex-position-buffer (:vertices mesh)
 
         vertex-position-attribute (get-attrib-location gl
                                                        (:shader (:material mesh))
                                                        "aVertexPosition")
 
-        vertex-indices (if (nil? (:indices mesh))
-                         nil
-                         (create-buffer
-                           gl
-                           (ta/unsigned-int16 (:indices mesh))
-                           buffer-object/element-array-buffer
-                           buffer-object/static-draw
-                           1))]
-    (assoc mesh
+        vertex-indices (:indices mesh)
+
+        ;vertex-indices (if (nil? (:indices mesh))
+        ;                 nil
+        ;                 (create-buffer
+        ;                   gl
+        ;                   (ta/unsigned-int16 (:indices mesh))
+        ;                   buffer-object/element-array-buffer
+        ;                   buffer-object/static-draw
+        ;                   1))
+        ]
+    (assoc {}
       :attributes (apply conj [{:buffer   vertex-position-buffer
                             :location vertex-position-attribute}]
                           (:attribute (:material mesh)))
@@ -47,7 +53,7 @@
 
       :textures (if (nil? (:textures (:material mesh)))
                   nil
-                  (deref (:textures (:material mesh))))
+                  (:textures (:material mesh)))
 
       :element-array (if (nil? vertex-indices)
                        nil

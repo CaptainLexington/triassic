@@ -30,6 +30,19 @@
     c))
 
 
+
+
+(defn load-image
+  ""
+  [url callback-fn]
+  (let [c (chan 1)
+        img (js/Image.)]
+    (set! (.-onload img) (fn [] (put! c img)))
+    (set! (.-crossOrigin img) "anonymous")
+    (set! (.-src img) url)
+    c))
+
+
 (defn conj-in [map k v]
   (assoc map
     k
@@ -38,9 +51,9 @@
            v)))
 
 (defn- parse-vertices
-  ([x y z] [(/ (js/parseFloat x) 25)
-            (/ (js/parseFloat y) 25)
-            (/ (js/parseFloat z) 25)])
+  ([x y z] [(/ (js/parseFloat x) 1)
+            (/ (js/parseFloat y) 1)
+            (/ (js/parseFloat z) 1)])
   ([x y z w] [(js/parseFloat x)
               (js/parseFloat y)
               (js/parseFloat z)
@@ -48,9 +61,11 @@
 (defn- parse-uv-coords
   ([u v] [(js/parseFloat u)
           (js/parseFloat v)])
-  ([u v w] [(js/parseFloat u)
-            (js/parseFloat v)
-            (js/parseFloat w)]))
+  ([u v w] (if (zero? (js/parseFloat w))
+             (parse-uv-coords u v)
+             [(js/parseFloat u)
+              (js/parseFloat v)
+              (js/parseFloat w)])))
 (defn- parse-normals [x y z]
   [(js/parseFloat x)
    (js/parseFloat y)
@@ -112,53 +127,50 @@
                            {}
                            lines)
         vertices (:vertices parsed-obj)
-        indices (:indices parsed-obj)]
+        indices (:indices parsed-obj)
+        uv-indices (:uv-indices parsed-obj)
+        uv-coords (:uv-coords parsed-obj)]
     (-> parsed-obj
         (assoc :vertices (reverse vertices))
-        (assoc :indices (reverse indices)))))
+        (assoc :indices (reverse indices))
+        (assoc :uv-indices (reverse uv-indices))
+        (assoc :uv-coords (reverse uv-coords)))))
 
 (defn lw-obj [URI]
   {:value URI
-   :fn parse-obj})
+   :fn parse-obj
+   :loader http-get})
+
+(defn img [URI]
+  {:value URI
+   :fn identity
+   :loader load-image})
+
+
+;(defn img-texture
+;  "Loads the texture from the given URL. Note that the image is loaded in the background,
+;   and the returned texture will not immediately be fully initialized."
+;  [img]
+;  (load-image url (fn [img] (callback-fn
+;))))
 
 
 (defn load-asset [[k v]]
   (let [process-function (:fn v)
-        URI (:value v)]
+        URI (:value v)
+        loader (:loader v)]
     (go (assoc {}
           k
           (process-function
-            (<! (go (<! (http-get URI)))))))))
+            (<! (go (<! (loader URI)))))))))
 
 (defn load-assets [gl asset-locations callback-fn]
   (go (callback-fn (<!
                      (async/map merge
                                 (map load-asset asset-locations))))))
 
-;(create-texture
-;  gl
-;  :image nil
-;  :pixel-store-modes {webgl/unpack-flip-y-webgl true}
-;  :parameters {texture-parameter-name/texture-mag-filter texture-filter/nearest
-;               texture-parameter-name/texture-min-filter texture-filter/nearest})
 
 
-
-
-(defn load-image
-  ""
-  [url callback-fn]
-  (let [img (js/Image.)]
-    (set! (.-onload img) (fn [] (callback-fn img)))
-    (set! (.-crossOrigin img) "anonymous")
-    (set! (.-src img) url)))
 
 ; TODO: probably want to parameterize some of the details here
 ; TODO: deprecate this method?
-(defn load-texture
-  "Loads the texture from the given URL. Note that the image is loaded in the background,
-  and the returned texture will not immediately be fully initialized."
-  [gl-context url callback-fn]
-  (load-image url (fn [img] (callback-fn
-                              ))))
-

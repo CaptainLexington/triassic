@@ -8,6 +8,14 @@
 (defn rgb [color]
   (map #(/ % 255) (:rgb color)))
 
+(defn rgba
+  ([color]
+   (rgba color 1))
+  ([color a]
+   (concat (rgb color) [a])))
+
+
+
 
 
 (def air-force-blue-raf {:name "Air Force Blue (Raf)", :hex "#5d8aa8", :rgb [93 138 168]})
