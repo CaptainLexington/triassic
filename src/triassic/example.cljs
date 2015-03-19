@@ -27,8 +27,8 @@
       (geo/translate displacement)
       (geo/rotate axis angle)))
 
-(def ass {:dino (assets/lw-obj "/resources/obj/capsule.obj")
-          :texture (assets/img "/resources/obj/capsule0.jpg")})
+(def ass {:dino (assets/lw-obj "/resources/obj/Trex.OBJ")
+          :texture (assets/img "/resources/obj/nehe.gi")})
 
 (defn init [asses]
   (let [canvas (.getElementById js/document "canvas")
