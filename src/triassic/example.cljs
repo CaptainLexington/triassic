@@ -30,10 +30,10 @@
       (geo/translate displacement)
       (geo/rotate axis angle)))
 
-(def ass {:diloph (assets/lw-obj "/resources/obj/diloph.obj")
-          :trex (assets/lw-obj "/resources/obj/Trex.OBJ")
-          :trex-texture (assets/img "/resources/obj/Trex_Diffuse.jpg")
-          :diloph-texture (assets/img "/resources/obj/diloph.jpg")})
+(def ass {:diloph (assets/lw-obj "/triassic/resources/obj/diloph.obj")
+          :trex (assets/lw-obj "/triassic/resources/obj/Trex.OBJ")
+          :trex-texture (assets/img "/triassic/resources/obj/Trex_Diffuse.jpg")
+          :diloph-texture (assets/img "/triassic/resources/obj/diloph.jpg")})
 
 (defn init [asses]
   (let [canvas (.getElementById js/document "canvas")
