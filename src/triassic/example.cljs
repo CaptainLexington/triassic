@@ -42,48 +42,53 @@
                               0.1
                               100.0)
         cube-material-2 (materials/image-map gl
-                                           [
-                                            ; Front face
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0,
+                                             [
+                                              ; Front face
+                                              0.0, 0.0,
+                                              1.0, 0.0,
+                                              1.0, 1.0,
+                                              0.0, 1.0,
 
-                                            ; Back face
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0,
-                                            0.0, 0.0,
+                                              ; Back face
+                                              1.0, 0.0,
+                                              1.0, 1.0,
+                                              0.0, 1.0,
+                                              0.0, 0.0,
 
-                                            ; Top face
-                                            0.0, 1.0,
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-                                            1.0, 1.0,
+                                              ; Top face
+                                              0.0, 1.0,
+                                              0.0, 0.0,
+                                              1.0, 0.0,
+                                              1.0, 1.0,
 
-                                            ; Bottom face
-                                            1.0, 1.0,
-                                            0.0, 1.0,
-                                            0.0, 0.0,
-                                            1.0, 0.0,
+                                              ; Bottom face
+                                              1.0, 1.0,
+                                              0.0, 1.0,
+                                              0.0, 0.0,
+                                              1.0, 0.0,
 
-                                            ; Right face
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0,
-                                            0.0, 0.0,
+                                              ; Right face
+                                              1.0, 0.0,
+                                              1.0, 1.0,
+                                              0.0, 1.0,
+                                              0.0, 0.0,
 
-                                            ; Left face
-                                            0.0, 0.0,
-                                            1.0, 0.0,
-                                            1.0, 1.0,
-                                            0.0, 1.0, ]
-                                           (:cube-texture asses))
+                                              ; Left face
+                                              0.0, 0.0,
+                                              1.0, 0.0,
+                                              1.0, 1.0,
+                                              0.0, 1.0, ]
+                                             (:cube-texture asses))
 
 
         trex-material (materials/image-map gl
-                                           (:uv-coords (:dino asses))
-                                           (:capsule-texture asses))
+                                           (:uv-coords (:trex asses))
+                                           (:trex-texture asses))
+
+
+        diloph-material (materials/image-map gl
+                                             (:uv-coords (:diloph asses))
+                                             (:diloph-texture asses))
 
 
         cube-material (materials/solid-color gl (colors/rgb colors/forest-green-traditional) 1)
@@ -114,10 +119,10 @@
 
         ;cube (mesh/cube gl 2 cube-material-2)
         trex (mesh/mesh gl (:trex asses) trex-material)
-        diloph (mesh/mesh gl (:diloph asses) trex-material)
-        cube-displacement (vec3/vector-3 1.5 0 -8)
+        diloph (mesh/mesh gl (:diloph asses) diloph-material)
+        cube-displacement (vec3/vector-3 1.5 -1 -8)
         ;pyramid (mesh/pyramid gl 2 2 2 pyramid-material)
-        pyramid-displacement (vec3/vector-3 -1.5 0 -8)]
+        pyramid-displacement (vec3/vector-3 -1.5 -1 -8)]
 
 
 
@@ -134,10 +139,12 @@
 
         (render/double-draw! gl
                              [
-                              (move-and-rotate trex
-                                               pyramid-displacement
-                                               :y
-                                               (/ rad2 25))
+                              (geo/scale
+                                (move-and-rotate trex
+                                                 pyramid-displacement
+                                                 :y
+                                                 (/ rad2 25))
+                                0.015)
 
                               ;dino
                               (geo/scale
@@ -145,7 +152,7 @@
                                                  cube-displacement
                                                  :y
                                                  (/ rad1 100))
-                                         0.075)
+                                0.05)
                               ]
                              camera)))))
 
