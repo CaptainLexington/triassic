@@ -1,31 +1,27 @@
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="author" content="Richard Hull">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>Triassic Example #1 &ndash; some real 3D objects</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Richard Hull">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Triassic Example #1 &ndash; some real 3D objects</title>
 </head>
 <body>
-    <div class="nav">
-        <a href="lesson_03.html" title="WebGL Lesson 3 – a bit of movement">&#x25C0; Lesson 3</a> |
-        <a href="lesson_05.html" title="WebGL Lesson 5 – introducing textures">Lesson 5 &#x25B6;</a>
-    </div>
-
-    <h1>Triassic Example #1 &ndash; some real 3D objects</h1>
-    <canvas id="canvas" style="border:none" width="500" height="500"></canvas>
-    <p>
-        A 3sc implementation of
-        <a href="http://asakeron.github.io/cljs-webgl/examples/learningwebgl/lesson_04.html">http://asakeron.github.io/cljs-webgl/examples/learningwebgl/lesson_04.html</a>
-         and
-        <a href="http://learningwebgl.com/blog/?p=370">http://learningwebgl.com/blog/?p=370</a>
-        <p>
-            View the <a href="https://github.com/Asakeron/cljs-webgl/blob/feature/learningwebgl/examples/src/learningwebgl/lesson_04.cljs">source</a>.
+<h1>Triassic Example #1 &ndash; Dinosaurs with poor textures</h1>
+<canvas id="canvas" style="border:none" width="500" height="500"></canvas>
+<p>
+    A 3sc implementation of
+    <a href="http://asakeron.github.io/cljs-webgl/examples/learningwebgl/lesson_04.html">http://asakeron.github.io/cljs-webgl/examples/learningwebgl/lesson_04.html</a>
+    and
+    <a href="http://learningwebgl.com/blog/?p=370">http://learningwebgl.com/blog/?p=370</a>
+<p>
+    View the <a href="https://github.com/Asakeron/cljs-webgl/blob/feature/learningwebgl/examples/src/learningwebgl/lesson_04.cljs">source</a>.
 
 
-            <script src="target/goog/base.js" type="text/javascript"></script>
-            <script src="out/triassic.js" type="text/javascript"></script>
-            <script type="text/javascript">goog.require("triassic.core");</script>
-            <script id="shader-fs" type="x-shader/x-fragment">
+    <!--<script src="target/goog/base.js" type="text/javascript"></script>-->
+    <!--<script src='https://cdn.rawgit.com/google/closure-library/master/closure/goog/base.js'></script>-->
+    <script src="out/triassic.js" type="text/javascript"></script>
+    <script type="text/javascript">goog.require("triassic.core");</script>
+    <script id="shader-fs" type="x-shader/x-fragment">
             precision mediump float;
 
             varying vec4 vColor;
@@ -35,7 +31,7 @@
             }
             </script>
 
-            <script id="shader-vs" type="x-shader/x-vertex">
+    <script id="shader-vs" type="x-shader/x-vertex">
             attribute vec3 aVertexPosition;
             attribute vec4 aVertexColor;
 
@@ -49,8 +45,8 @@
                 vColor = aVertexColor;
             }
             </script>
-            <script type="text/javascript">
+    <script type="text/javascript">
                 triassic.example.start();
             </script>
-    </body>
+</body>
 </html>

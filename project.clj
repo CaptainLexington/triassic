@@ -26,6 +26,6 @@
                                                   {:file "resources/js/gl-matrix-min.js" :provides ["mat4","mat3","vec3", "quat"]}
                                                   {:file "resources/js/webgl-utils.js" :provides ["WebGLUtils"]}]
                                    :output-to "out/triassic.js"
-                                   :output-dir "target"
-                                   :optimizations :none
-                                   :source-map true}}]})
+                                   :output-dir "out"
+                                   :optimizations :simple
+                                   :source-map "out/map"}}]})
