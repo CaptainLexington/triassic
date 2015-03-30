@@ -40,7 +40,7 @@
                               (/ viewport-width viewport-height)
                               0.1
                               100.0)
-        cube-material-2 (materials/image-map gl
+        cube-material (materials/image-map gl
                                              [
                                               ; Front face
                                               0.0, 0.0,
@@ -95,7 +95,7 @@
                                            (:pill-texture asses))
 
 
-        cube-material (materials/solid-color gl (colors/rgb colors/forest-green-traditional) 1)
+        ;cube-material (materials/solid-color gl (colors/rgb colors/forest-green-traditional) 1)
 
         pyramid-material-2 (materials/solid-color gl (colors/rgb colors/beige) 1)
 
@@ -121,7 +121,7 @@
         ;                                       0.0, 0.0, 1.0, 1.0,
         ;                                       0.0, 1.0, 0.0, 1.0 ])
 
-        cube (mesh/cube gl 2 cube-material-2)
+        cube (mesh/cube gl 2 cube-material)
         pill (mesh/mesh gl (:pill asses) pill-material)
         ;diloph (mesh/mesh gl (:diloph asses) diloph-material)
         cube-displacement (vec3/vector-3 1.5 0 -8)
