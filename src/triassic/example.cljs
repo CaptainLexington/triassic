@@ -27,10 +27,9 @@
       (geo/translate displacement)
       (geo/rotate axis angle)))
 
-(def ass {:diloph (assets/lw-obj "/resources/obj/diloph.obj")
-          :trex (assets/lw-obj "/resources/obj/Trex.OBJ")
-          :trex-texture (assets/img "/resources/obj/Trex_Diffuse.jpg")
-          :diloph-texture (assets/img "/resources/obj/diloph.jpg")})
+(def ass {:pill (assets/lw-obj "/resources/obj/capsule.obj")
+          :pill-texture (assets/img "/resources/obj/capsule0.jpg")
+          :cube-texture (assets/img "/resources/obj/nehe.gif")})
 
 (defn init [asses]
   (let [canvas (.getElementById js/document "canvas")
@@ -81,14 +80,19 @@
                                              (:cube-texture asses))
 
 
-        trex-material (materials/image-map gl
-                                           (:uv-coords (:trex asses))
-                                           (:trex-texture asses))
+        ;trex-material (materials/image-map gl
+        ;                                   (:uv-coords (:trex asses))
+        ;                                   (:trex-texture asses))
 
 
-        diloph-material (materials/image-map gl
-                                             (:uv-coords (:diloph asses))
-                                             (:diloph-texture asses))
+        ;diloph-material (materials/image-map gl
+        ;                                     (:uv-coords (:diloph asses))
+        ;                                     (:diloph-texture asses))
+
+
+        pill-material (materials/image-map gl
+                                           (:uv-coords (:pill asses))
+                                           (:pill-texture asses))
 
 
         cube-material (materials/solid-color gl (colors/rgb colors/forest-green-traditional) 1)
@@ -117,12 +121,12 @@
         ;                                       0.0, 0.0, 1.0, 1.0,
         ;                                       0.0, 1.0, 0.0, 1.0 ])
 
-        ;cube (mesh/cube gl 2 cube-material-2)
-        trex (mesh/mesh gl (:trex asses) trex-material)
-        diloph (mesh/mesh gl (:diloph asses) diloph-material)
-        cube-displacement (vec3/vector-3 1.5 -1 -8)
+        cube (mesh/cube gl 2 cube-material-2)
+        pill (mesh/mesh gl (:pill asses) pill-material)
+        ;diloph (mesh/mesh gl (:diloph asses) diloph-material)
+        cube-displacement (vec3/vector-3 1.5 0 -8)
         ;pyramid (mesh/pyramid gl 2 2 2 pyramid-material)
-        pyramid-displacement (vec3/vector-3 -1.5 -1 -8)]
+        pill-displacement (vec3/vector-3 -1.5 0 -8)]
 
 
 
@@ -139,20 +143,16 @@
 
         (render/double-draw! gl
                              [
-                              (geo/scale
-                                (move-and-rotate trex
-                                                 pyramid-displacement
-                                                 :y
-                                                 (/ rad2 25))
-                                0.015)
+                              (move-and-rotate pill
+                                               pill-displacement
+                                               :y
+                                               (/ rad2 25))
 
                               ;dino
-                              (geo/scale
-                                (move-and-rotate diloph
-                                                 cube-displacement
-                                                 :y
-                                                 (/ rad1 100))
-                                0.05)
+                              (move-and-rotate cube
+                                               cube-displacement
+                                               :y
+                                               (/ rad1 100))
                               ]
                              camera)))))
 
