@@ -13,6 +13,7 @@
 
 
 (defn mesh [gl geometry material]
+  "Returns a mesh in the given gl context, with geometry defined by the given geometry object and with the given material applied"
   {
    :vertices              (create-buffer gl
                                          (ta/float32 (:vertices geometry))
@@ -32,6 +33,7 @@
    })
 
 (defn cube [gl length material]
+  "Returns a mesh in the given gl context, with geometry defined by a cube the given edge length and with the given material applied"
   (let [vertices (geo/cube length)
 
         indices [0, 1, 2,      0, 2, 3,      ; Front face

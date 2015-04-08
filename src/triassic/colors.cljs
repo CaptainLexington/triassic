@@ -6,9 +6,12 @@
 ;;grey/gray inconsistencies have been unified to gray, with aliases for grey
 
 (defn rgb [color]
+  "Returns a vector of the normalized RBG values of a given predefined Triassic color"
   (map #(/ % 255) (:rgb color)))
 
 (defn rgba
+  "Returns a vector of the normalized RBGA values of a given predefined Triassic color
+  If no A value is given, it is assumed to be opaque."
   ([color]
    (rgba color 1))
   ([color a]

@@ -12,7 +12,7 @@
 
 
 
-(defn webglify [gl mesh camera]
+(defn- webglify [gl mesh camera]
   (let [
         ;vertex-position-buffer (create-buffer gl
         ;                                      (ta/float32 (:vertices mesh))
@@ -71,6 +71,7 @@
 
 
 (defn double-draw! [gl meshes camera]
+  "Given a gl context, a scene graph, and a camera, draws the scene to the canvas."
   (let [defaults {:draw-mode     draw-mode/triangles
                   :capabilities  {capability/depth-test true}}
         prepped-meshes (map #(if-not (:webglified? %1)

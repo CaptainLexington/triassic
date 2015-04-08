@@ -20189,10 +20189,6 @@ triassic.utils.init_gl = function(a) {
   }
   return a;
 };
-triassic.utils.init_shaders = function(a) {
-  var b = cljs_webgl.shaders.get_shader.call(null, a, "shader-fs"), c = cljs_webgl.shaders.get_shader.call(null, a, "shader-vs");
-  return cljs_webgl.shaders.create_program.call(null, a, b, c);
-};
 triassic.utils.animate = function(a) {
   return function c(d) {
     return function() {
@@ -20200,34 +20196,6 @@ triassic.utils.animate = function(a) {
       return a.call(null, d);
     };
   }.call(null, 0).call(null);
-};
-triassic.utils.checked_QMARK_ = function(a) {
-  return document.getElementById(a).checked;
-};
-triassic.utils.get_float = function(a) {
-  return parseFloat(document.getElementById(a).value);
-};
-triassic.utils.ambient_color = function() {
-  return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "name", "name", 1843675177), "uAmbientColor", new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "vec3", "vec3", 1116680488), new cljs.core.Keyword(null, "values", "values", 372645556), cljs_webgl.typed_arrays.float32.call(null, new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [triassic.utils.get_float.call(null, "ambientR"), triassic.utils.get_float.call(null, 
-  "ambientG"), triassic.utils.get_float.call(null, "ambientB")], null))], null);
-};
-triassic.utils.directional_color = function() {
-  return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "name", "name", 1843675177), "uDirectionalColor", new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "vec3", "vec3", 1116680488), new cljs.core.Keyword(null, "values", "values", 372645556), cljs_webgl.typed_arrays.float32.call(null, new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [triassic.utils.get_float.call(null, "directionalR"), triassic.utils.get_float.call(null, 
-  "directionalG"), triassic.utils.get_float.call(null, "directionalB")], null))], null);
-};
-triassic.utils.lighting_direction = function() {
-  var a = cljs_webgl.typed_arrays.float32.call(null, new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [triassic.utils.get_float.call(null, "lightDirectionX"), triassic.utils.get_float.call(null, "lightDirectionY"), triassic.utils.get_float.call(null, "lightDirectionZ")], null)), b = vec3.create.call(null);
-  vec3.normalize.call(null, b, a);
-  vec3.scale.call(null, b, b, -1);
-  return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "name", "name", 1843675177), "uLightingDirection", new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "vec3", "vec3", 1116680488), new cljs.core.Keyword(null, "values", "values", 372645556), b], null);
-};
-triassic.utils.blending = function(a) {
-  return cljs.core.truth_(a) ? new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "name", "name", 1843675177), "uAlpha", new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "float", "float", -1732389368), new cljs.core.Keyword(null, "values", "values", 372645556), cljs_webgl.typed_arrays.float32.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, 
-  [triassic.utils.get_float.call(null, "alpha")], null))], null)], null) : null;
-};
-triassic.utils.lighting = function(a) {
-  return cljs.core.cons.call(null, new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "name", "name", 1843675177), "uUseLighting", new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "int", "int", -1741416922), new cljs.core.Keyword(null, "values", "values", 372645556), cljs_webgl.typed_arrays.int32.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.truth_(a) ? 1 : 0], null))], null), cljs.core.truth_(a) ? 
-  new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [triassic.utils.ambient_color.call(null), triassic.utils.lighting_direction.call(null), triassic.utils.directional_color.call(null)], null) : null);
 };
 triassic.vector = {};
 triassic.vector.vector_3 = function(a, b, c) {
@@ -35705,11 +35673,6 @@ cljs.core.async.partition_by = function() {
   return a;
 }();
 triassic.assets = {};
-triassic.assets.fixup_keys = function(a) {
-  return clojure.walk.prewalk.call(null, function(a) {
-    return cljs.core.map_QMARK_.call(null, a) ? cljs.core.zipmap.call(null, cljs.core.map.call(null, cljs.core.keyword, cljs.core.keys.call(null, a)), cljs.core.vals.call(null, a)) : a;
-  }, a);
-};
 triassic.assets.http_get = function(a) {
   var b = cljs.core.async.chan.call(null, 1);
   goog.net.XhrIo.send(a, function(a) {
@@ -35719,16 +35682,16 @@ triassic.assets.http_get = function(a) {
   }(b));
   return b;
 };
-triassic.assets.load_image = function(a, b) {
-  var c = cljs.core.async.chan.call(null, 1), d = new Image;
-  d.onload = function(a, b) {
+triassic.assets.load_image = function(a) {
+  var b = cljs.core.async.chan.call(null, 1), c = new Image;
+  c.onload = function(a, b) {
     return function() {
       return cljs.core.async.put_BANG_.call(null, a, b);
     };
-  }(c, d);
-  d.crossOrigin = "anonymous";
-  d.src = a;
-  return c;
+  }(b, c);
+  c.crossOrigin = "anonymous";
+  c.src = a;
+  return b;
 };
 triassic.assets.conj_in = function(a, b, c) {
   return cljs.core.assoc.call(null, a, b, cljs.core.apply.call(null, cljs.core.conj, b.call(null, a), c));
@@ -36060,28 +36023,24 @@ triassic.example.ass = new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.
 triassic.example.init = function(a) {
   var b = document.getElementById("canvas"), c = triassic.utils.init_gl.call(null, b), d = triassic.utils.get_viewport.call(null, c), e = cljs.core.seq_QMARK_.call(null, d) ? cljs.core.apply.call(null, cljs.core.hash_map, d) : d, g = cljs.core.get.call(null, e, new cljs.core.Keyword(null, "width", "width", -384071477)), f = cljs.core.get.call(null, e, new cljs.core.Keyword(null, "height", "height", 1025178622)), h = triassic.matrix.camera.call(null, 45, g / f, .1, 100), k = triassic.materials.image_map.call(null, 
   c, cljs.core.PersistentVector.fromArray([0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1], !0), (new cljs.core.Keyword(null, "cube-texture", "cube-texture", -521430675)).cljs$core$IFn$_invoke$arity$1(a)), l = triassic.materials.image_map.call(null, c, (new cljs.core.Keyword(null, "uv-coords", "uv-coords", 437655712)).cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "pill", "pill", -37707E3)).cljs$core$IFn$_invoke$arity$1(a)), 
-  (new cljs.core.Keyword(null, "pill-texture", "pill-texture", 1163801204)).cljs$core$IFn$_invoke$arity$1(a)), m = triassic.materials.solid_color.call(null, c, triassic.colors.rgb.call(null, triassic.colors.beige), 1), n = triassic.mesh.cube.call(null, c, 2, k), p = triassic.mesh.mesh.call(null, c, (new cljs.core.Keyword(null, "pill", "pill", -37707E3)).cljs$core$IFn$_invoke$arity$1(a), l), q = triassic.vector.vector_3.call(null, 1.5, 0, -8), r = triassic.vector.vector_3.call(null, -1.5, 0, -8);
-  console.log(cljs.core.apply.call(null, cljs.core.array, (new cljs.core.Keyword(null, "uv-coords", "uv-coords", 437655712)).cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "dino", "dino", -2049928836)).cljs$core$IFn$_invoke$arity$1(a))));
-  return triassic.utils.animate.call(null, function(a, b, c, d, e, f, g, h, k, l, m, n, p, q) {
+  (new cljs.core.Keyword(null, "pill-texture", "pill-texture", 1163801204)).cljs$core$IFn$_invoke$arity$1(a)), m = triassic.mesh.cube.call(null, c, 2, k);
+  a = triassic.mesh.mesh.call(null, c, (new cljs.core.Keyword(null, "pill", "pill", -37707E3)).cljs$core$IFn$_invoke$arity$1(a), l);
+  var n = triassic.vector.vector_3.call(null, 1.5, 0, -8), p = triassic.vector.vector_3.call(null, -1.5, 0, -8);
+  return triassic.utils.animate.call(null, function(a, b, c, d, e, f, g, h, k, l, m, n, p) {
     return function(a) {
       cljs.core.apply.call(null, cljs_webgl.buffers.clear_color_buffer, b, triassic.colors.rgba.call(null, triassic.colors.forest_green_traditional));
       cljs_webgl.buffers.clear_depth_buffer.call(null, b, 1);
       triassic.example.rad2 -= 1;
       triassic.example.rad1 += 1;
-      return triassic.render.double_draw_BANG_.call(null, b, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [triassic.example.move_and_rotate.call(null, n, q, new cljs.core.Keyword(null, "y", "y", -1757859776), triassic.example.rad2 / 25), triassic.example.move_and_rotate.call(null, m, p, new cljs.core.Keyword(null, "y", "y", -1757859776), triassic.example.rad1 / 100)], null), g);
+      return triassic.render.double_draw_BANG_.call(null, b, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [triassic.example.move_and_rotate.call(null, m, p, new cljs.core.Keyword(null, "y", "y", -1757859776), triassic.example.rad2 / 25), triassic.example.move_and_rotate.call(null, l, n, new cljs.core.Keyword(null, "y", "y", -1757859776), triassic.example.rad1 / 100)], null), g);
     };
-  }(b, c, d, e, g, f, h, k, l, m, n, p, q, r));
+  }(b, c, d, e, g, f, h, k, l, m, a, n, p));
 };
 triassic.example.start = function() {
   return triassic.assets.load_assets.call(null, null, triassic.example.ass, triassic.example.init);
 };
 goog.exportSymbol("triassic.example.start", triassic.example.start);
 triassic.core = {};
-triassic.core.a = mat4.create.call(null);
-triassic.core.b = mat4.create.call(null);
-mat4.identity.call(null, triassic.core.a);
-mat4.identity.call(null, triassic.core.b);
-triassic.matrix.multiply.call(null, triassic.core.a, triassic.core.b);
 triassic.space = {};
 
 //# sourceMappingURL=map

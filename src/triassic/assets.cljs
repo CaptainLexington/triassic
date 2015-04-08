@@ -9,16 +9,8 @@
             [goog.net.XhrIo])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn fixup-keys [x]
-  (prewalk
-    (fn [x]
-      (if (map? x)
-        (zipmap (map keyword (keys x))
-                (vals x))
-        x))
-    x))
-
 (defn http-get [url]
+  "Returns a channel that will return the result of the ajax call to the given URL"
   (let [c (chan 1)]
     (goog.net.XhrIo/send url (fn [e]
                                (->> e
@@ -29,12 +21,9 @@
                                     (put! c))))
     c))
 
-
-
-
 (defn load-image
-  ""
-  [url callback-fn]
+  "Returns a channel that will return the a JS image object when it finishes loading the resource at the given URL"
+  [url]
   (let [c (chan 1)
         img (js/Image.)]
     (set! (.-onload img) (fn [] (put! c img)))
@@ -43,7 +32,7 @@
     c))
 
 
-(defn conj-in [map k v]
+(defn- conj-in [map k v]
   (assoc map
     k
     (apply conj
@@ -122,6 +111,7 @@
       map)))
 
 (defn- parse-obj [file-string]
+  "Returns a ClojureScript map representing the vertices, vertex indices, uv coordinates, and uv indices of a 3D model given by the specified LightWave OBJ file"
   (let [lines (string/split file-string #"\n")
         parsed-obj (reduce parse-line
                            {}
@@ -137,25 +127,19 @@
         (assoc :uv-coords (reverse uv-coords)))))
 
 (defn lw-obj [URI]
+  "Returns a triassic-specific data-structure for loading LightWave OBJ files from the given remote URI"
   {:value URI
    :fn parse-obj
    :loader http-get})
 
 (defn img [URI]
+  "Returns a triassic-specific data-structure for loading image files from the given remote URI"
   {:value URI
    :fn identity
    :loader load-image})
 
 
-;(defn img-texture
-;  "Loads the texture from the given URL. Note that the image is loaded in the background,
-;   and the returned texture will not immediately be fully initialized."
-;  [img]
-;  (load-image url (fn [img] (callback-fn
-;))))
-
-
-(defn load-asset [[k v]]
+(defn- load-asset [[k v]]
   (let [process-function (:fn v)
         URI (:value v)
         loader (:loader v)]
@@ -165,6 +149,7 @@
             (<! (go (<! (loader URI)))))))))
 
 (defn load-assets [gl asset-locations callback-fn]
+  "Given a single-depth map of keys and URIs, returns a single-depth map of identical keys and loaded, processed assets retrieved from those URIs"
   (go (callback-fn (<!
                      (async/map merge
                                 (map load-asset asset-locations))))))

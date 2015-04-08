@@ -25,6 +25,7 @@
 
 
 (defn shader-program-from-source [gl fragment-src vertex-src]
+  "Returns a shader compiled program in the given gl context, from the given fragment and vertex shader source files"
   (create-program gl
                   (create-shader gl
                                  cljs-webgl.constants.shader/fragment-shader
@@ -36,6 +37,7 @@
 
 
 (defn solid-color
+  "Returns a mesh material for the given gl context in a solid color defined by the given RGBA values"
   ([gl r g b a]
    (let [fragment
          (str "precision mediump float;
@@ -60,6 +62,7 @@
 
 
 (defn color-map [gl vertices]
+  "Returns a mesh material for the given gl context in a vertexwise color map for the given color vertices"
   (let [fragment
         "precision mediump float;
 
@@ -82,6 +85,7 @@
                                                  "aVertexColor")}]}))
 
 (defn image-map [gl vertices img]
+  "Returns a mesh material for the given gl context with the given UV coordinates and the given JS image resource"
   (let [fragment
         "precision mediump float;
          varying vec2 vTextureCoord;
