@@ -147,7 +147,7 @@
         ;;We draw our items
         ;;Instead of a proper Scene Graph data structure,
         ;;;we transform them according to our helper function
-        ;;;and drop them into a pure vector.
+        ;;;and drop them into a regular vector.
         (render/double-draw! gl
                              [
                               (move-and-rotate pill
